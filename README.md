@@ -57,4 +57,4 @@ Create a file `DateTime.cshtml` in `/Views/Shared/EditorTemplates` with the foll
 <input id="@id" name="@id" value="@value" type="datetime-local" class="@classes" @required @readOnly  />
 ```
 
-Note: this file is available [here](./ASP.NET MVC/EditorTemplates/DateTime.cshtml)
+Note: this file is available [here](https://github.com/EvertDB/snippets-that-make-you-go-hmmmm/blob/main/ASP.NET%20MVC/EditorTemplates/DateTime.cshtml).
