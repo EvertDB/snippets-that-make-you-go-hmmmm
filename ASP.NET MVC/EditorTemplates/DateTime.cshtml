@@ -1,0 +1,14 @@
+﻿@model DateTime?
+
+@{ 
+    var htmlAttrib = ViewData["htmlAttributes"];
+    IDictionary<string, object> dic = new RouteValueDictionary(htmlAttrib);
+    var metadata = ViewData.ModelMetadata;
+    string id = ViewData.TemplateInfo.HtmlFieldPrefix;
+    var value = ((DateTime?)Model)?.ToString("yyyy-MM-ddTHH:mm");
+    var classes = dic["class"];
+    var readOnlyHtml = dic["readonly"];
+    string required = metadata.IsRequired ? "required=required" : "";
+    string readOnly = (readOnlyHtml != null || metadata.IsReadOnly) ? $"readonly={readOnlyHtml ?? "readOnly"}" : "";
+}
+<input id="@id" name="@id" value="@value" type="datetime-local" class="@classes" @required @readOnly  />

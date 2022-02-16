@@ -16,7 +16,7 @@ Framework | Language | Location | Purpose
 -|-|-|-
 Entity Framework | C# | Context class (typically `/Data/...Context.cs`) | Use a custom DB schema (instead of `dbo`)
 
-```Csharp
+```cs
 public class CustomDbSchemaContext : DbContext
 {
   ...
@@ -29,3 +29,32 @@ public class CustomDbSchemaContext : DbContext
   ...
 }
 ```
+
+### Editable DateTime
+
+Framework | Language | Location | Purpose
+-|-|-|-
+ASP.NET MVC 5 | Razor (C#) | /Views/Shared/EditorTemplates/DateTime.cshtml | Solution according to standards for date/time editable control (in non-English notations).
+
+Editing date/time fields in an ASP.NET MVC 5 web page might be a hassle. Using a custom editor template can solve this problem at once (and in line with standards), without the need for further modifications.
+
+Create a file `DateTime.cshtml` in `/Views/Shared/EditorTemplates` with the following contents:
+
+```cs
+@model DateTime?
+
+@{ 
+    var htmlAttrib = ViewData["htmlAttributes"];
+    IDictionary<string, object> dic = new RouteValueDictionary(htmlAttrib);
+    var metadata = ViewData.ModelMetadata;
+    string id = ViewData.TemplateInfo.HtmlFieldPrefix;
+    var value = ((DateTime?)Model)?.ToString("yyyy-MM-ddTHH:mm");
+    var classes = dic["class"];
+    var readOnlyHtml = dic["readonly"];
+    string required = metadata.IsRequired ? "required=required" : "";
+    string readOnly = (readOnlyHtml != null || metadata.IsReadOnly) ? $"readonly={readOnlyHtml ?? "readOnly"}" : "";
+}
+<input id="@id" name="@id" value="@value" type="datetime-local" class="@classes" @required @readOnly  />
+```
+
+Note: this file is available [here](./ASP.NET MVC/EditorTemplates/DateTime.cshtml)
