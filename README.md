@@ -5,5 +5,5 @@ Unlike the [Things That Make You Go Hmmmm](https://www.youtube.com/watch?v=XF2ay
 
 Care to correct or add one? Please start a pull request!
 
-Thx! 
+Thx!  
 EvertDB
