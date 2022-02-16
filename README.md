@@ -14,7 +14,7 @@ EvertDB
 
 Framework | Language | Location | Purpose
 -|-|-|-
-Entity Framework | C# | Context class (typically /Data/...Context.cs) | Use a custom DB schema (instead of `dbo`)
+Entity Framework | C# | Context class (typically `/Data/...Context.cs`) | Use a custom DB schema (instead of `dbo`)
 
 ```Csharp
 public class CustomDbSchemaContext : DbContext
