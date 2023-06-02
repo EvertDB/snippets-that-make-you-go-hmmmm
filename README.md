@@ -10,6 +10,12 @@ EvertDB
 
 ## Snippets
 
+Snippet | Framework | Language | Location | Purpose
+-|-|-|-|-
+**Custom DB Schema** | Entity Framework | C# | Context class (typically `/Data/...Context.cs`) | Use a custom DB schema (instead of `dbo`).
+**Editable DateTime** | ASP.NET MVC 5 | Razor (C#) | /Views/Shared/EditorTemplates/DateTime.cshtml | Solution according to standards for date/time editable control (in non-English notations).
+**RadioButtons for enum** | ASP.NET MVC 5 | Razor (C#) | /Views/Shared/EditorTemplates/RadioButtonsForEnum.cshtml | Create a list of radio buttons for an enumeration.
+
 ### Custom DB Schema
 
 Framework | Language | Location | Purpose
@@ -58,3 +64,65 @@ Create a file `DateTime.cshtml` in `/Views/Shared/EditorTemplates` with the foll
 ```
 
 Note: this file is available [here](https://github.com/EvertDB/snippets-that-make-you-go-hmmmm/blob/main/ASP.NET%20MVC/EditorTemplates/DateTime.cshtml).
+
+### Radiobuttons for enum
+
+Framework | Language | Location | Purpose
+-|-|-|-
+ASP.NET MVC 5 | Razor (C#) | /Views/Shared/EditorTemplates/RadioButtonsForEnum.cshtml | Create a list of radio buttons for an enumeration.
+
+Elegant solution for generating radio buttons for the values of an enum. It takes the `Display()` attribute into account.
+
+Create a file `RadioButtonsForEnum.cshtml` in `/Views/Shared/EditorTemplates` with the following contents:
+
+```cs
+@model Enum
+
+@{
+     // Looks for a [Display(Name="Some Name")] or a [Display(Name="Some Name", ResourceType=typeof(ResourceFile)] Attribute on your enum
+    Func<Enum, string> getDescription = en =>
+    {
+        Type type = en.GetType();
+        System.Reflection.MemberInfo[] memInfo = type.GetMember(en.ToString());
+
+        if (memInfo != null && memInfo.Length > 0)
+        {
+            object[] attrs = memInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute),
+                                                            false);
+            if (attrs != null && attrs.Length > 0)
+                return ((System.ComponentModel.DataAnnotations.DisplayAttribute)attrs[0]).GetName();
+        }
+        return en.ToString();
+    };
+    var listItems = Enum.GetValues(Model.GetType()).OfType<Enum>().Select(e =>
+    new SelectListItem()
+    {
+        Text = getDescription(e),
+        Value = e.ToString(),
+        Selected = e.Equals(Model)
+    });
+    string prefix = ViewData.TemplateInfo.HtmlFieldPrefix;
+    int index = 0;
+    ViewData.TemplateInfo.HtmlFieldPrefix = string.Empty;
+
+    foreach (var li in listItems)
+    {
+        string fieldName = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}_{1}", prefix, index++);
+        <div class="editor-radio">
+        @Html.RadioButton(prefix, li.Value, li.Selected, new { @id = fieldName }) 
+        @Html.Label(fieldName, li.Text)    
+        </div>
+    }
+    ViewData.TemplateInfo.HtmlFieldPrefix = prefix;
+}
+```
+
+How to use?
+
+```csharp
+// Suppose the model has a property `EnumPropertyGoesHere` that is an enum type
+@Html.EditorFor(x => x.EnumPropertyGoesHere, "RadioButtonsForEnum")
+```
+
+[Credits](https://stackoverflow.com/questions/21679249/mvc5-enum-radio-button-with-label-as-displayname#21680307)  
+Note: this file is available [here](https://github.com/EvertDB/snippets-that-make-you-go-hmmmm/blob/main/ASP.NET%20MVC/EditorTemplates/RadioButtonsForEnum.cshtml).
