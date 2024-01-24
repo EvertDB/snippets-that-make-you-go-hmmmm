@@ -10,11 +10,11 @@ EvertDB
 
 ## Snippets
 
-Snippet | Framework | Language | Location | Purpose
+Snippet | Purpose | Framework | Language | Location 
 -|-|-|-|-
-**[Custom DB Schema](./README.md#custom-db-schema)** | Entity Framework | C# | Context class (typically `/Data/...Context.cs`) | Use a custom DB schema (instead of `dbo`).
-**[Editable DateTime](./README.md#editable-datetime)** | ASP.NET MVC 5 | Razor (C#) | /Views/Shared/EditorTemplates/DateTime.cshtml | Solution according to standards for date/time editable control (in non-English notations).
-**[RadioButtons for enum](./README.md#radiobuttons-for-enum)** | ASP.NET MVC 5 | Razor (C#) | /Views/Shared/EditorTemplates/RadioButtonsForEnum.cshtml | Create a list of radio buttons for an enumeration.
+**[Custom DB Schema](./README.md#custom-db-schema)**           | Context class (typically `/Data/...Context.cs`) | Use a custom DB schema (instead of `dbo`).  | Entity Framework | C#         
+**[Editable DateTime](./README.md#editable-datetime)**         | Solution according to standards for date/time editable control (in non-English notations).  | ASP.NET MVC 5    | Razor (C#) | /Views/Shared/EditorTemplates/DateTime.cshtml 
+**[RadioButtons for enum](./README.md#radiobuttons-for-enum)** | Create a list of radio buttons for an enumeration.  | ASP.NET MVC 5    | Razor (C#) | /Views/Shared/EditorTemplates/RadioButtonsForEnum.cshtml 
 
 ### Custom DB Schema
 
