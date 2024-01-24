@@ -12,9 +12,9 @@ EvertDB
 
 Snippet | Framework | Language | Location | Purpose
 -|-|-|-|-
-**Custom DB Schema** | Entity Framework | C# | Context class (typically `/Data/...Context.cs`) | Use a custom DB schema (instead of `dbo`).
-**Editable DateTime** | ASP.NET MVC 5 | Razor (C#) | /Views/Shared/EditorTemplates/DateTime.cshtml | Solution according to standards for date/time editable control (in non-English notations).
-**RadioButtons for enum** | ASP.NET MVC 5 | Razor (C#) | /Views/Shared/EditorTemplates/RadioButtonsForEnum.cshtml | Create a list of radio buttons for an enumeration.
+**[Custom DB Schema](./README.md#custom-db-schema)** | Entity Framework | C# | Context class (typically `/Data/...Context.cs`) | Use a custom DB schema (instead of `dbo`).
+**[Editable DateTime](./README.md#editable-datetime)** | ASP.NET MVC 5 | Razor (C#) | /Views/Shared/EditorTemplates/DateTime.cshtml | Solution according to standards for date/time editable control (in non-English notations).
+**[RadioButtons for enum](./README.md#radiobuttons-for-enum)** | ASP.NET MVC 5 | Razor (C#) | /Views/Shared/EditorTemplates/RadioButtonsForEnum.cshtml | Create a list of radio buttons for an enumeration.
 
 ### Custom DB Schema
 
