@@ -12,7 +12,7 @@ EvertDB
 
 Snippet | Purpose | Framework | Language | Location 
 -|-|-|-|-
-**[Custom DB Schema](./README.md#custom-db-schema)**           | Context class (typically `/Data/...Context.cs`) | Use a custom DB schema (instead of `dbo`).  | Entity Framework | C#         
+**[Custom DB Schema](./README.md#custom-db-schema)**           | Use a custom DB schema (instead of `dbo`).  | Entity Framework | C#         | Context class (typically `/Data/...Context.cs`) 
 **[Editable DateTime](./README.md#editable-datetime)**         | Solution according to standards for date/time editable control (in non-English notations).  | ASP.NET MVC 5    | Razor (C#) | /Views/Shared/EditorTemplates/DateTime.cshtml 
 **[RadioButtons for enum](./README.md#radiobuttons-for-enum)** | Create a list of radio buttons for an enumeration.  | ASP.NET MVC 5    | Razor (C#) | /Views/Shared/EditorTemplates/RadioButtonsForEnum.cshtml 
 
