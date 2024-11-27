@@ -15,6 +15,7 @@ Snippet | Purpose | Framework | Language | Location
 **[Custom DB Schema](./README.md#custom-db-schema)**           | Use a custom DB schema (instead of `dbo`).  | Entity Framework | C#         | Context class (typically `/Data/...Context.cs`) 
 **[Editable DateTime](./README.md#editable-datetime)**         | Solution according to standards for date/time editable control (in non-English notations).  | ASP.NET MVC 5    | Razor (C#) | /Views/Shared/EditorTemplates/DateTime.cshtml 
 **[RadioButtons for enum](./README.md#radiobuttons-for-enum)** | Create a list of radio buttons for an enumeration.  | ASP.NET MVC 5    | Razor (C#) | /Views/Shared/EditorTemplates/RadioButtonsForEnum.cshtml 
+**[Editable DateOnly](./README.md#editable-dateonly)**         | Variation on Editable DateTime. Solution according to standards for date editable control (in non-English notations).  | ASP.NET Core MVC (.NET 6.0+)    | Razor (C#) | /Views/Shared/EditorTemplates/DateOnly.cshtml 
 
 ### Custom DB Schema
 
@@ -22,17 +23,17 @@ Framework | Language | Location | Purpose
 -|-|-|-
 Entity Framework | C# | Context class (typically `/Data/...Context.cs`) | Use a custom DB schema (instead of `dbo`)
 
-```cs
+```csharp
 public class CustomDbSchemaContext : DbContext
 {
-  ...
+  // ...
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("Enter schema name here");
 
         base.OnModelCreating(modelBuilder);
     }
-  ...
+  // ...
 }
 ```
 
@@ -46,7 +47,7 @@ Editing date/time fields in an ASP.NET MVC 5 web page might be a hassle. Using a
 
 Create a file `DateTime.cshtml` in `/Views/Shared/EditorTemplates` with the following contents:
 
-```cs
+```cshtml
 @model DateTime?
 
 @{ 
@@ -75,7 +76,7 @@ Elegant solution for generating radio buttons for the values of an enum. It take
 
 Create a file `RadioButtonsForEnum.cshtml` in `/Views/Shared/EditorTemplates` with the following contents:
 
-```cs
+```cshtml
 @model Enum
 
 @{
@@ -119,10 +120,46 @@ Create a file `RadioButtonsForEnum.cshtml` in `/Views/Shared/EditorTemplates` wi
 
 How to use?
 
-```csharp
+```cshtml
 // Suppose the model has a property `EnumPropertyGoesHere` that is an enum type
 @Html.EditorFor(x => x.EnumPropertyGoesHere, "RadioButtonsForEnum")
 ```
 
 [Credits](https://stackoverflow.com/questions/21679249/mvc5-enum-radio-button-with-label-as-displayname#21680307)  
 Note: this file is available [here](https://github.com/EvertDB/snippets-that-make-you-go-hmmmm/blob/main/ASP.NET%20MVC/EditorTemplates/RadioButtonsForEnum.cshtml).
+
+### Editable DateOnly
+
+Framework | Language | Location | Purpose
+-|-|-|-
+ASP.NET Core MVC (.NET 6.0+) | Razor (C#) | /Views/Shared/EditorTemplates/DateTime.cshtml | Solution according to standards for date/time editable control (in non-English notations).
+
+The `DateOnly` struct is [available as of .NET 6](https://learn.microsoft.com/en-us/dotnet/api/system.dateonly#applies-to).
+Editing date fields in an ASP.NET Core MVC web page might be a hassle. Using a custom editor template can solve this problem at once (and in line with standards), without the need for further modifications. The ideal solution involves creating your own **model binder**. Here, we propose a light solution. Unfortunately the simplicity comes with a price: we have to adapt our views.
+
+Create a file `DateOnly.cshtml` in `/Views/Shared/EditorTemplates` with the following contents:
+
+```cshtml
+@model DateOnly?
+
+@{
+    string id = ViewData.TemplateInfo.HtmlFieldPrefix;
+    var value = Model.HasValue ? Model.Value.ToString("yyyy-MM-dd") : "";
+    var htmlAttrib = ViewData["htmlAttributes"];
+    IDictionary<string, object> dic = new RouteValueDictionary(htmlAttrib);
+    var classes = dic.ContainsKey("class") ? dic["class"] : "";
+    var metadata = ViewData.ModelMetadata;
+    string required = metadata.IsRequired ? "required" : "";
+    string readOnly = metadata.IsReadOnly || dic.ContainsKey("readonly") ? "readonly" : "";
+}
+<input id="@id" name="@id" value="@value" type="date" class="@classes" @required @readOnly />
+```
+
+In every view where we want to use a date editor, we have to modify our code if we scaffolded it. Code like this:
+```cshtml
+<input asp-for="Entry.Datum" class="form-control" />
+```
+should me adapted to this:
+```cshtml
+@Html.EditorFor(model => model.Entry.Datum, new { htmlAttributes = new { @class="form-control" }})
+```
